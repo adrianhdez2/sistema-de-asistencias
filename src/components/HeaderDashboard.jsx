@@ -52,6 +52,7 @@ function HeaderDashboard() {
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
                                 <LinkHeader title={"Inicio"} href={"/dashboard"} />
+                                <LinkHeader title={"Activos"} href={"/dashboard/activos"} />
                                 <LinkHeader title={"Actualizar horas"} href={"/dashboard/update"} />
                                 <LinkHeader title={"Alumnos"} href={"/dashboard/students"} />
                                 <LinkHeader title={"Administradores"} href={"/dashboard/admins"} />

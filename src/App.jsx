@@ -8,6 +8,7 @@ import Alumnos from "./pages/dashboard/Students"
 import { FilterProvider } from "./components/context/filters"
 import { PrivateRoutes } from "./components/privates/PrivateRoutes"
 import Admins from "./pages/dashboard/Admins"
+import Activos from "./pages/dashboard/Activos"
 
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="admins" element={<Admins />} />
             <Route path="update" element={<Update />} />
             <Route path="reports" element={<Reports />} />
+            <Route path="activos" element={<Activos />} />
           </Route>
         </Routes>
       </FilterProvider>
