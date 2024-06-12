@@ -3,7 +3,6 @@ import Home from "./pages/Home"
 import HomeDashboard from "./pages/dashboard/HomeDashboard"
 import Reports from "./pages/dashboard/Reports"
 import Update from "./pages/dashboard/Update"
-import Actividades from "./pages/Actividades"
 import Dashboard from "./pages/Dashboard"
 import Alumnos from "./pages/dashboard/Students"
 import { FilterProvider } from "./components/context/filters"
@@ -17,7 +16,6 @@ export default function App() {
       <FilterProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/actividades" element={<Actividades />} />
           <Route path="/dashboard" element={<PrivateRoutes element={<Dashboard />} />} >
             <Route index element={<HomeDashboard />} />
             <Route path="students" element={<Alumnos />} />
