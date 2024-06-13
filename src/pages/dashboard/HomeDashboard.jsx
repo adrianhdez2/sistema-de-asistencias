@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import ItemGeneral from "../../components/items/ItemGeneral"
 import axios from "axios"
+import ButtonNotifications from "../../components/items/ButtonNotifications"
 
 
 function HomeDashboard() {
@@ -29,6 +30,9 @@ function HomeDashboard() {
   return (
     <main>
       <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+        <div className="my-1 w-full max-w-7xl items-center justify-end flex">
+          <ButtonNotifications />
+        </div>
         <div className="my-10 w-full max-w-7xl items-center justify-between flex">
           <h2 className="font-semibold text-lg">
             Actuales alumnos prestadores de servicio social y práctica profesional

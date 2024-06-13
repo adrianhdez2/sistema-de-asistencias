@@ -22,10 +22,6 @@ function Home() {
   })
   const { time } = useTime()
 
-  const handleShowForm = () => {
-    setForm(!form)
-  }
-
   const handleChangeValues = (e) => {
     const { target } = e
     const { name, value } = target

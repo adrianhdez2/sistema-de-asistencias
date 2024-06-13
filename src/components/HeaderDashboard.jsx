@@ -46,7 +46,7 @@ function HeaderDashboard() {
                             <img
                                 className="h-8 w-8"
                                 src="/xdevlab_blanco.png"
-                                alt="Your Company"
+                                alt="X DevLab"
                             />
                         </a>
                         <div className="hidden md:block">
