@@ -73,13 +73,13 @@ function Alumnos() {
                   <th scope="col" className="px-6 py-3"> Horas cumplidas </th>
                   <th scope="col" className="px-6 py-3"> Tipo </th>
                   <th scope="col" className="px-6 py-3 text-center"> Acción</th>
-                  <th scope="col" className="px-6 py-3 text-center"> Acción</th>
+                  <th scope="col" className="px-6 py-3 text-center"> Contraseña</th>
                 </tr>
               </thead>
               <tbody>
                 {
                   filterStudents(alumnos).map(alumno => (
-                      <ItemList key={alumno.id_estudiante} alumno={alumno} />
+                      <ItemList key={alumno.id_estudiante_estudiantes} alumno={alumno} />
                   ))
                 }
               </tbody>

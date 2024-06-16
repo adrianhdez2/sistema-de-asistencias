@@ -26,8 +26,6 @@ function HoursForm({ handleHiddeHoursForm, id_estudiante, setError, setMessage, 
         axios.defaults.withCredentials = true
         e.preventDefault()
 
-        if (values.total_horas === 0) return console.log("Ingresa al menos una hora")
-
         axios.post('http://localhost:3001/alumnos/hours', values)
             .then(res => {
                 if (res.data?.status) {
@@ -36,12 +34,12 @@ function HoursForm({ handleHiddeHoursForm, id_estudiante, setError, setMessage, 
                 }
             })
             .catch(err => {
-                setError(err.response?.data?.errror)
+                setError(err.response?.data?.error)
             })
     }
 
     return (
-        <div className="absolute top-0 left-0 bg-gray-500/50 w-full h-dvh flex items-center justify-center">
+        <div className="fixed top-0 left-0 bg-gray-500/50 w-full h-dvh flex items-center justify-center">
             <form className="w-1/2 bg-white mx-auto rounded-md p-4" onSubmit={handleSubmit}>
                 <div className="space-y-12">
                     <div className="border-b border-gray-900/10 pb-12">

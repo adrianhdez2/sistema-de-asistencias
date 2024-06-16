@@ -20,7 +20,17 @@ function Update() {
         setAlumnos(res.data)
       })
       .catch(err => {
-        console.log(err);
+        setError(err.response?.data?.error)
+      })
+  }
+
+  function reloadData() {
+    axios.get(`http://localhost:3001/alumnos/search?matricula=${search}`)
+      .then(res => {
+        setAlumnos(res.data)
+      })
+      .catch(err => {
+        setError(err.response?.data?.error)
       })
   }
 
@@ -29,7 +39,7 @@ function Update() {
       setError(error);
       const timer = setTimeout(() => {
         setError('');
-      }, 5000);
+      }, 1500);
 
       return () => clearTimeout(timer);
     }
@@ -39,8 +49,9 @@ function Update() {
     if (message) {
       setMessage(message);
       const timer = setTimeout(() => {
+        reloadData()
         setMessage('');
-      }, 5000);
+      }, 1500);
 
       return () => clearTimeout(timer);
     }
@@ -68,7 +79,7 @@ function Update() {
         </button>
       </form>
 
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg max-w-7xl mx-auto">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg max-w-7xl mx-auto my-10">
         {
           alumnos.length === 0 ?
             <p className="py-2 px-3 text-gray-400">No hay resultados con el término ingresado.</p>
@@ -86,7 +97,7 @@ function Update() {
               <tbody>
                 {
                   alumnos.map(alumno => (
-                    <tr key={alumno.id_estudiante} className="bg-white border-b text-black hover:bg-gray-50 dark:hover:bg-gray-100">
+                    <tr key={alumno.id_estudiante_estudiantes} className="bg-white border-b text-black hover:bg-gray-50 dark:hover:bg-gray-100">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-black whitespace-nowrap"
@@ -94,10 +105,10 @@ function Update() {
                         {alumno.matricula}
                       </th>
                       <td className="px-6 py-4"> {alumno.nombres + " " + alumno.apellido_p + " " + alumno.apellido_m} </td>
-                      <td className="px-6 py-4"> 480hrs </td>
+                      <td className="px-6 py-4"> {alumno.total_horas}hrs </td>
                       <td className="px-6 py-4"> {formatType(alumno.tipo)} </td>
                       <td className="px-6 py-4 text-right">
-                        <LinkUpdate id_estudiante={alumno.id_estudiante} setError={setError} setMessage={setMessage} />
+                        <LinkUpdate id_estudiante={alumno.id_estudiante_estudiantes} setError={setError} setMessage={setMessage} />
                       </td>
                     </tr>
                   ))

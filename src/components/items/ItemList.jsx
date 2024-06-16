@@ -3,7 +3,7 @@ import FormTable from "./FormTable"
 
 
 export default function ItemList({ alumno }) {
-    const { id_estudiante, matricula, nombres, apellido_p, apellido_m, tipo, estado, password } = alumno
+    const { id_estudiante_estudiantes, matricula, nombres, apellido_p, apellido_m, tipo, estado, password, total_horas } = alumno
     const newTipo = formatType(tipo)
     const newState = estado === 0 ? 1 : 0
 
@@ -16,7 +16,7 @@ export default function ItemList({ alumno }) {
                 {matricula}
             </th>
             <td className="px-6 py-4"> {nombres + " " + apellido_p + " " + apellido_m} </td>
-            <td className="px-6 py-4"> 480hrs </td>
+            <td className="px-6 py-4"> {total_horas}hrs </td>
             <td className="px-6 py-4">
                 {newTipo}
             </td>
@@ -24,14 +24,14 @@ export default function ItemList({ alumno }) {
                 {
                     tipo !== 'servicio_y_practica' &&
                     <>
-                        <FormTable state={estado} id_user={id_estudiante} newState={newState} />
+                        <FormTable state={estado} id_user={id_estudiante_estudiantes} newState={newState} />
                     </>
                 }
             </td>
             <td className="px-6 py-4 text-center">
                 {
                     tipo !== 'servicio_y_practica' && 
-                    <FormStudent id_estudiante={id_estudiante} password={password ? true : false}/>
+                    <FormStudent id_estudiante={id_estudiante_estudiantes} password={password ? true : false}/>
                 }
             </td>
         </tr>

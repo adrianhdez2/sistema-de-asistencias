@@ -1,7 +1,7 @@
 
 
 function ItemGeneral({ alumno }) {
-    const { nombres, apellido_p, apellido_m, matricula, carrera } = alumno
+    const { nombres, apellido_p, apellido_m, matricula, carrera, total_horas } = alumno
     return (
         <li className="flex justify-between gap-x-6 py-5">
             <div className="flex min-w-0 gap-x-4">
@@ -26,7 +26,7 @@ function ItemGeneral({ alumno }) {
                     {carrera}
                 </p>
                 <p className="mt-1 text-xs leading-5 text-gray-500">
-                    Total de horas: 300hrs.
+                    Total de horas: {total_horas}hrs.
                 </p>
             </div>
         </li>

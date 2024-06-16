@@ -52,7 +52,7 @@ function HomeDashboard() {
               :
 
               alumnos.map(alumno => (
-                <ItemGeneral key={alumno.id_estudiante} alumno={alumno} />
+                <ItemGeneral key={alumno.id_estudiante_estudiantes} alumno={alumno} />
               ))
           }
 
