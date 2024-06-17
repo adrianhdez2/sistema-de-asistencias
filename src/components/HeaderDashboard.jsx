@@ -64,7 +64,7 @@ function HeaderDashboard() {
                         <div className="ml-4 flex items-center md:ml-6">
                             <button
                                 type="button"
-                                className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:text-red-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+                                className="relative rounded-sm bg-gray-800 p-1 text-gray-400 hover:text-red-500 focus:outline-none focus:text-red-500"
                                 onClick={handleLogOut}
                             >
                                 Cerrar sesión
