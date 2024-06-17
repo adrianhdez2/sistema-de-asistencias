@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
-import axios from "axios"
 import ItemAdmin from "../../components/items/ItemAdmin"
 import AddAdmin from "../../components/AddAdmin"
+import { useAxios } from "../../components/hooks/useAxios"
 
 
 export default function Admins() {
   const [show, setShow] = useState(false)
   const [admins, setAdmins] = useState([])
-  axios.defaults.withCredentials = true;
+  const { axiosClient } = useAxios()
 
   document.title = "Administradores"
 
@@ -21,10 +21,10 @@ export default function Admins() {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:3001/admins/verify')
+    axiosClient.get('/admins/verify')
       .then(res => {
         if (res.data.status) {
-          axios.get('http://localhost:3001/admins/')
+          axiosClient.get('/admins/')
             .then(res => setAdmins(res.data))
             .catch(err => console.log(err))
         }

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import axios from "axios"
 import LinkUpdate from "../../components/items/LinkUpdate"
 import Error from '../../components/items/Error'
 import Message from '../../components/items/Message'
+import { useAxios } from "../../components/hooks/useAxios"
 
 
 function Update() {
@@ -10,12 +10,13 @@ function Update() {
   const [error, setError] = useState(null)
   const [message, setMessage] = useState(null)
   const [search, setSearch] = useState('')
+  const {axiosClient} = useAxios()
   document.title = "Actualizar horas"
 
   const handleSearch = (e) => {
     e.preventDefault()
 
-    axios.get(`http://localhost:3001/alumnos/search?matricula=${search}`)
+    axiosClient.get(`/alumnos/search?matricula=${search}`)
       .then(res => {
         setAlumnos(res.data)
       })
@@ -25,7 +26,7 @@ function Update() {
   }
 
   function reloadData() {
-    axios.get(`http://localhost:3001/alumnos/search?matricula=${search}`)
+    axiosClient.get(`/alumnos/search?matricula=${search}`)
       .then(res => {
         setAlumnos(res.data)
       })

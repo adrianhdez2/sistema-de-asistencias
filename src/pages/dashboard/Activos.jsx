@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react"
-import axios from "axios"
+import { useAxios } from "../../components/hooks/useAxios";
 
 
 export default function Activos() {
     const [alumnos, setAlumnos] = useState([])
-    axios.defaults.withCredentials = true;
+    const { axiosClient } = useAxios()
 
     document.title = "Alumnos activos"
 
     useEffect(() => {
-        axios.get('http://localhost:3001/admins/verify')
+        axiosClient.get('/admins/verify')
             .then(res => {
                 if (res.data.status) {
-                    axios.get('http://localhost:3001/alumnos/get')
+                    axiosClient.get('/alumnos/get')
                         .then(res => setAlumnos(res.data))
                         .catch(err => console.log(err))
                 }

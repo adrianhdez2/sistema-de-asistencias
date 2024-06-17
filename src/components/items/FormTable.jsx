@@ -1,16 +1,16 @@
-import axios from "axios"
 import { useState } from "react"
-
+import { useAxios } from '../hooks/useAxios'
 
 function FormTable({ state, id_user, newState }) {
     const [values] = useState({ id_estudiante: id_user, estado: newState })
     const [loading, setLoading] = useState(false)
+    const { axiosClient } = useAxios()
 
     const handleUpdateEstate = (e) => {
         e.preventDefault()
         setLoading(true)
 
-        axios.patch('http://localhost:3001/alumnos/', values)
+        axiosClient.patch('/alumnos/', values)
             .then(res => {
                 if (res.data.status) {
                     window.location.reload()

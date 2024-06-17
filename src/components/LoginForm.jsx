@@ -1,9 +1,9 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import UsePortals from "./hooks/usePortals"
 import Error from "./items/Error"
 import Message from "./items/Message"
+import { useAxios } from '../components/hooks/useAxios'
 
 
 function LoginForm({ handleHiddeLoginForm }) {
@@ -14,6 +14,7 @@ function LoginForm({ handleHiddeLoginForm }) {
         correo: '',
         password: ''
     })
+    const { axiosClient } = useAxios()
 
     const handleChangeValues = (e) => {
         let { target } = e
@@ -29,9 +30,8 @@ function LoginForm({ handleHiddeLoginForm }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.defaults.withCredentials = true
 
-        axios.post('http://localhost:3001/admins/login', values)
+        axiosClient.post('/admins/login', values)
             .then(res => {
                 if (res.data.status) {
                     navigate('/dashboard')

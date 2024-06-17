@@ -1,8 +1,8 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import Error from "./Error"
 import Message from "./Message"
 import UsePortals from '../hooks/usePortals'
+import { useAxios } from '../hooks/useAxios'
 
 
 function ButtonNotifications() {
@@ -10,12 +10,13 @@ function ButtonNotifications() {
     const [error, setError] = useState(null)
     const [message, setMessage] = useState(null)
     const [loading, setLoading] = useState(false)
+    const { axiosClient } = useAxios()
 
     useEffect(() => {
-        axios.get('http://localhost:3001/admins/verify')
+        axiosClient.get('/admins/verify')
             .then(res => {
                 if (res.data.status) {
-                    axios.get('http://localhost:3001/admins/get')
+                    axiosClient.get('/admins/get')
                         .then(res => {
                             if (res.status) {
                                 setState(res.data.estado)
@@ -29,7 +30,7 @@ function ButtonNotifications() {
 
     const handleChangeNofitications = () => {
         setLoading(true)
-        axios.post('http://localhost:3001/admins/notifications', { estado: state === 0 ? 1 : 0 })
+        axiosClient.post('/admins/notifications', { estado: state === 0 ? 1 : 0 })
             .then(res => {
                 if (res.data.status) {
                     setLoading(false)
@@ -69,11 +70,11 @@ function ButtonNotifications() {
             <button type="button" className={
                 `rounded-md px-3 py-2 text-sm font-semibold flex items-center justify-center gap-x-2 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2  
                 ${state === 1 ?
-                        'bg-green-600 hover:bg-green-500 focus-visible:outline-green-600 disabled:bg-green-500'
-                        :
-                        'bg-slate-600 hover:bg-slate-500 focus-visible:outline-slate-600 disabled:bg-slate-500'
+                    'bg-green-600 hover:bg-green-500 focus-visible:outline-green-600 disabled:bg-green-500'
+                    :
+                    'bg-slate-600 hover:bg-slate-500 focus-visible:outline-slate-600 disabled:bg-slate-500'
 
-                    }`
+                }`
             }
                 onClick={handleChangeNofitications}
                 disabled={loading ? true : undefined}

@@ -1,18 +1,17 @@
-import axios from "axios";
 import { useState } from "react";
-
+import { useAxios } from '../components/hooks/useAxios'
 
 function FormOTP({ studentValues, setShow, setForm, setError, setMessage }) {
     const [otp, setOtp] = useState('')
     const [loading, setLoading] = useState(false)
+    const { axiosClient } = useAxios()
 
 
     const handleValidation = (e) => {
         e.preventDefault()
         setLoading(true)
-        axios.defaults.withCredentials = true
 
-        axios.post('http://localhost:3001/alumnos/update', { studentValues, otp },)
+        axiosClient.post('/alumnos/update', { studentValues, otp },)
             .then(res => {
                 if (res.data.status) {
                     setMessage(res.data?.message)

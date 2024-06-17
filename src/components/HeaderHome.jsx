@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 import LoginForm from "./LoginForm"
-import axios from "axios"
+import { useAxios } from "./hooks/useAxios"
 
 
 function HeaderHome() {
     const [show, setShow] = useState(false)
     const [login, setLogin] = useState(false)
-    axios.defaults.withCredentials = true;
+    const { axiosClient } = useAxios()
 
     const handleShowLoginForm = (e) => {
         e.preventDefault()
@@ -19,7 +19,7 @@ function HeaderHome() {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:3001/admins/verify')
+        axiosClient.get('/admins/verify')
             .then(res => {
                 if (res.data.status) {
                     setLogin(!login)
@@ -45,11 +45,6 @@ function HeaderHome() {
                             />
                         </a>
                     </div>
-                    {/* <div className="hidden lg:flex lg:gap-x-12">
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Features</a>
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Marketplace</a>
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Company</a>
-                </div> */}
                     <div className="flex flex-1 justify-end">
                         {
                             login ?

@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react"
 import AddForm from "../../components/AddForm"
 import ItemList from "../../components/items/ItemList"
-import axios from "axios"
 import Filters from "../../components/items/Filters"
 import { useFilters } from '../../components/hooks/useFilters'
+import { useAxios } from "../../components/hooks/useAxios"
 
 
 function Alumnos() {
   const [show, setShow] = useState(false)
   const [alumnos, setAlumnos] = useState([])
   const { filterStudents } = useFilters()
-  axios.defaults.withCredentials = true;
+  const { axiosClient } = useAxios()
 
   document.title = "Alumnos"
 
@@ -24,10 +24,10 @@ function Alumnos() {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:3001/admins/verify')
+    axiosClient.get('/admins/verify')
       .then(res => {
         if (res.data.status) {
-          axios.get('http://localhost:3001/alumnos')
+          axiosClient.get('/alumnos')
             .then(res => setAlumnos(res.data))
             .catch(err => console.log(err))
         }
@@ -79,7 +79,7 @@ function Alumnos() {
               <tbody>
                 {
                   filterStudents(alumnos).map(alumno => (
-                      <ItemList key={alumno.id_estudiante_estudiantes} alumno={alumno} />
+                    <ItemList key={alumno.id_estudiante_estudiantes} alumno={alumno} />
                   ))
                 }
               </tbody>

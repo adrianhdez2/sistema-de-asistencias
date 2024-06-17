@@ -1,17 +1,16 @@
-// import axios from "axios"
-import axios from "axios"
 import { useState } from "react"
-
+import { useAxios } from '../hooks/useAxios'
 
 function FormAdmin({ correo, password }) {
     const [values] = useState({ correo: correo })
     const [loading, setLoading] = useState(false)
+    const { axiosClient } = useAxios()
 
     const handleUpdateEstate = (e) => {
         e.preventDefault()
         setLoading(true)
 
-        axios.post('http://localhost:3001/admins/generate', values)
+        axiosClient.post('/admins/generate', values)
             .then(res => {
                 if (res.data.status) {
                     window.location.reload()

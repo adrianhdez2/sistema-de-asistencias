@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import HeaderHome from '../components/HeaderHome'
-import axios from 'axios'
 import { useTime } from '../components/hooks/useTime'
 import FormOTP from '../components/FormOTP'
 import Error from '../components/items/Error'
 import Message from '../components/items/Message'
 import Actividades from '../components/Actividades'
+import { useAxios } from '../components/hooks/useAxios'
 
 function Home() {
 
@@ -21,6 +21,7 @@ function Home() {
     password: ''
   })
   const { time } = useTime()
+  const { axiosClient } = useAxios()
 
   const handleChangeValues = (e) => {
     const { target } = e
@@ -37,8 +38,8 @@ function Home() {
   const handleSubmit = (e) => {
     e.preventDefault()
     setLoading(true)
-    axios.defaults.withCredentials = true
-    axios.post('http://localhost:3001/alumnos/save', values)
+
+    axiosClient.post('/alumnos/save', values)
       .then(res => {
         if (res.data.status == 200) {
           setStudentValues({ ...studentValues, id_hora: res.data.id_hora, hora_salida: time, matricula: values.matricula })
@@ -159,10 +160,10 @@ function Home() {
         </div>
       </div>
 
-      {show && <FormOTP studentValues={studentValues} setShow={setShow} setForm={setForm} setError={setError} setMessage={setMessage}/>}
+      {show && <FormOTP studentValues={studentValues} setShow={setShow} setForm={setForm} setError={setError} setMessage={setMessage} />}
       {error && <Error error={error} />}
       {message && <Message message={message} />}
-      {form && <Actividades setForm={setForm} matricula={studentValues.matricula} setError={setError} setMessage={setMessage}/>}
+      {form && <Actividades setForm={setForm} matricula={studentValues.matricula} setError={setError} setMessage={setMessage} />}
     </>
   )
 }

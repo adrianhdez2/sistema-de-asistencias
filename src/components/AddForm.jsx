@@ -1,7 +1,8 @@
-import axios from "axios"
 import { useState } from "react"
+import { useAxios } from "./hooks/useAxios"
 
 function AddForm({ handleHiddeAddForm }) {
+    const { axiosClient } = useAxios()
     const [loading, setLoading] = useState(false)
     const [values, setValues] = useState({
         names: '',
@@ -28,7 +29,7 @@ function AddForm({ handleHiddeAddForm }) {
         e.preventDefault()
         setLoading(true)
 
-        axios.post('http://localhost:3001/alumnos/add', values)
+        axiosClient.post('/alumnos/add', values)
             .then(res => {
                 if (res.data.status) {
                     window.location.reload()

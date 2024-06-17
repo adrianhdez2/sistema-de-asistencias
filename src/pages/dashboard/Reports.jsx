@@ -1,13 +1,13 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useGenerate } from "../../components/hooks/useGenerate"
 import UsePortals from "../../components/hooks/usePortals"
 import Error from "../../components/items/Error"
+import { useAxios } from "../../components/hooks/useAxios"
 
 
 function Reports() {
   document.title = "Reportes"
-
+  const { axiosClient } = useAxios()
   const [alumnos, setAlumnos] = useState([])
   const [dataExcel, setDataExcel] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -33,10 +33,10 @@ function Reports() {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:3001/admins/verify')
+    axiosClient.get('/admins/verify')
       .then(res => {
         if (res.data.status) {
-          axios.get('http://localhost:3001/alumnos?estado=1')
+          axiosClient.get('/alumnos?estado=1')
             .then(res => {
               setAlumnos(res.data)
               setValues({ ...values, alumno_id: res.data[0]?.id_estudiante_estudiantes })
@@ -50,7 +50,7 @@ function Reports() {
   const handleGenerateReport = (e) => {
     e.preventDefault()
     setLoading(true)
-    axios.post('http://localhost:3001/admins/reports', values)
+    axiosClient.post('/admins/reports', values)
       .then(res => {
         if (res.data.status) {
           setLoading(false)
@@ -180,14 +180,14 @@ function Reports() {
           </button>
 
           {
-            dataExcel && 
-            <button 
-            onClick={downloadExcel} 
-            type="button"
-            className="border border-slate-500/50 rounded-md px-3 py-1.5 flex items-center justify-center text-center  hover:bg-slate-500/10 transition-colors active:text-indigo-500 outline-none"
+            dataExcel &&
+            <button
+              onClick={downloadExcel}
+              type="button"
+              className="border border-slate-500/50 rounded-md px-3 py-1.5 flex items-center justify-center text-center  hover:bg-slate-500/10 transition-colors active:text-indigo-500 outline-none"
             >
               Descargar {fileName}.xlsx
-              </button>
+            </button>
           }
         </div>
       </form>

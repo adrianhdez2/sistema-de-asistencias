@@ -1,7 +1,8 @@
-import axios from "axios"
 import { useState } from "react"
+import { useAxios } from '../components/hooks/useAxios'
 
 function HoursForm({ handleHiddeHoursForm, id_estudiante, setError, setMessage, setShow }) {
+    const { axiosClient } = useAxios()
     const [values, setValues] = useState({
         id_estudiante: id_estudiante,
         fecha: '',
@@ -23,10 +24,9 @@ function HoursForm({ handleHiddeHoursForm, id_estudiante, setError, setMessage, 
     }
 
     const handleSubmit = (e) => {
-        axios.defaults.withCredentials = true
         e.preventDefault()
 
-        axios.post('http://localhost:3001/alumnos/hours', values)
+        axiosClient.post('/alumnos/hours', values)
             .then(res => {
                 if (res.data?.status) {
                     setMessage(res.data?.message)

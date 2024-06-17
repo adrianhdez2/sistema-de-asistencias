@@ -1,16 +1,16 @@
-import axios from "axios"
 import { useState } from "react"
-
+import { useAxios } from '../components/hooks/useAxios'
 
 export default function Actividades({ setForm, matricula, setError, setMessage }) {
   const [detalles, setDetalles] = useState('')
   const [loading, setLoading] = useState(false)
+  const { axiosClient } = useAxios()
 
   const handleSubmitForm = (e) => {
     e.preventDefault()
     setLoading(true)
 
-    axios.post('http://localhost:3001/alumnos/activities', { matricula, detalles })
+    axiosClient.post('/alumnos/activities', { matricula, detalles })
       .then(res => {
         if (res.data?.status) {
           setMessage(res.data?.message)

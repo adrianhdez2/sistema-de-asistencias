@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import FormAdmin from "./FormAdmin"
-import axios from "axios";
+import { useAxios } from '../hooks/useAxios'
 
 export default function ItemAdmin({ alumno }) {
     const { id_admin, nombres, apellido_p, apellido_m, correo, password } = alumno
     const [id, setId] = useState(null)
-
-    axios.defaults.withCredentials = true;
+    const { axiosClient } = useAxios()
 
     useEffect(() => {
-        axios.get("http://localhost:3001/admins/verify")
+        axiosClient.get("/admins/verify")
             .then(res => {
                 if (res.data.status) {
-                    axios.get("http://localhost:3001/admins/admin")
+                    axiosClient.get("/admins/admin")
                         .then(res => {
                             setId(res.data.id_admin);
                         })

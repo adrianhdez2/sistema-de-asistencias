@@ -1,16 +1,16 @@
-import axios from "axios"
 import { useState } from "react"
-
+import { useAxios } from '../hooks/useAxios'
 
 function FormStudent({ id_estudiante, password }) {
     const [values] = useState({ id_estudiante: id_estudiante })
     const [loading, setLoading] = useState(false)
+    const { axiosClient } = useAxios()
 
     const handleUpdateEstate = (e) => {
         e.preventDefault()
         setLoading(true)
 
-        axios.post('http://localhost:3001/alumnos/generate', values)
+        axiosClient.post('/alumnos/generate', values)
             .then(res => {
                 if (res.data.status) {
                     window.location.reload()

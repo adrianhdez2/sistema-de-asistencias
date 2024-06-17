@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import ItemGeneral from "../../components/items/ItemGeneral"
-import axios from "axios"
 import ButtonNotifications from "../../components/items/ButtonNotifications"
+import { useAxios } from "../../components/hooks/useAxios"
 
 
 function HomeDashboard() {
@@ -9,13 +9,13 @@ function HomeDashboard() {
   const [totalPages, setTotalPages] = useState(0)
   document.title = "Inicio"
   const [alumnos, setAlumnos] = useState([])
-  axios.defaults.withCredentials = true;
+  const {axiosClient} = useAxios()
 
   useEffect(() => {
-    axios.get('http://localhost:3001/admins/verify')
+    axiosClient.get('/admins/verify')
       .then(res => {
         if (res.data.status) {
-          axios.get(`http://localhost:3001/alumnos?&estado=1&limite=7&pagina=${page}`)
+          axiosClient.get(`/alumnos?&estado=1&limite=7&pagina=${page}`)
             .then(res => {
               setAlumnos(res.data.alumnos)
               setTotalPages(res.data.totalPages)

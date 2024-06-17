@@ -1,15 +1,15 @@
-import axios from "axios"
 import LinkHeader from "./LinkHeader"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
-
+import { useAxios } from '../components/hooks/useAxios'
 
 function HeaderDashboard() {
     const navigate = useNavigate()
     const [image, setImage] = useState(null)
+    const { axiosClient } = useAxios()
 
     const handleLogOut = () => {
-        axios.get('http://localhost:3001/admins/logout')
+        axiosClient.get('/admins/logout')
             .then(res => {
                 if (res.data.status) {
                     navigate('/')
@@ -19,13 +19,13 @@ function HeaderDashboard() {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:3001/admins/verify')
+        axiosClient.get('/admins/verify')
             .then(res => {
                 if (res.data.status) {
-                    axios.get('http://localhost:3001/admins/admin')
+                    axiosClient.get('/admins/admin')
                         .then(res => {
                             const id_admin = res.data.id_admin
-                            axios.post('http://localhost:3001/admins/image', { id_admin })
+                            axiosClient.post('/admins/image', { id_admin })
                                 .then(res => {
                                     setImage(res.data.imagen)
                                 })

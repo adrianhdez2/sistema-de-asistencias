@@ -1,13 +1,13 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAxios } from "../hooks/useAxios";
 
 export const PrivateRoutes = ({ element }) => {
-    axios.defaults.withCredentials = true;
     const navigate = useNavigate();
+    const {axiosClient} = useAxios()
 
     useEffect(() => {
-        axios.get("http://localhost:3001/admins/verify")
+        axiosClient.get("/admins/verify")
             .then(res => {
                 if (!res.data.status) {
                     navigate('/');
