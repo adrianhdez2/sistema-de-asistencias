@@ -3,6 +3,7 @@ import { useGenerate } from "../../components/hooks/useGenerate"
 import UsePortals from "../../components/hooks/usePortals"
 import Error from "../../components/items/Error"
 import { useAxios } from "../../components/hooks/useAxios"
+import { useError } from "../../components/hooks/useError"
 
 
 function Reports() {
@@ -12,7 +13,7 @@ function Reports() {
   const [dataExcel, setDataExcel] = useState(null)
   const [loading, setLoading] = useState(false)
   const [fileName, setFileName] = useState(null)
-  const [error, setError] = useState(null)
+  const { error, setError } = useError()
   const [values, setValues] = useState({
     alumno_id: null,
     tipo_reporte: 'lista',
@@ -44,7 +45,7 @@ function Reports() {
             .catch(err => setError(err.response?.data?.error))
         }
       })
-      .catch(err => console.log(err))
+      .catch()
   }, [])
 
   const handleGenerateReport = (e) => {
@@ -65,17 +66,6 @@ function Reports() {
         setLoading(false)
       })
   }
-
-  useEffect(() => {
-    if (error) {
-      setError(error);
-      const timer = setTimeout(() => {
-        setError('');
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [error]);
 
   return (
     <section className="my-10 px-2">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import HeaderHome from '../components/HeaderHome'
 import { useTime } from '../components/hooks/useTime'
 import FormOTP from '../components/FormOTP'
@@ -6,13 +6,16 @@ import Error from '../components/items/Error'
 import Message from '../components/items/Message'
 import Actividades from '../components/Actividades'
 import { useAxios } from '../components/hooks/useAxios'
+import { useError } from '../components/hooks/useError'
+import { useMessage } from '../components/hooks/useMessage'
+import UsePortals from '../components/hooks/usePortals'
 
 function Home() {
 
   const [studentValues, setStudentValues] = useState({ id_hora: null, hora_salida: null, matricula: null })
   const [initialValues] = useState({ matricula: '', password: '' })
-  const [error, setError] = useState(null)
-  const [message, setMessage] = useState(null)
+  const { error, setError } = useError()
+  const { message, setMessage } = useMessage()
   const [loading, setLoading] = useState(false)
   const [show, setShow] = useState(false)
   const [form, setForm] = useState(false)
@@ -64,27 +67,7 @@ function Home() {
       })
   }
 
-  useEffect(() => {
-    if (error) {
-      setError(error);
-      const timer = setTimeout(() => {
-        setError('');
-      }, 5000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (message) {
-      setMessage(message);
-      const timer = setTimeout(() => {
-        setMessage('');
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
 
   return (
     <>
@@ -160,10 +143,18 @@ function Home() {
         </div>
       </div>
 
-      {show && <FormOTP studentValues={studentValues} setShow={setShow} setForm={setForm} setError={setError} setMessage={setMessage} />}
-      {error && <Error error={error} />}
-      {message && <Message message={message} />}
-      {form && <Actividades setForm={setForm} matricula={studentValues.matricula} setError={setError} setMessage={setMessage} />}
+      {show &&
+        <UsePortals>
+          <FormOTP studentValues={studentValues} setShow={setShow} setForm={setForm} setError={setError} setMessage={setMessage} />
+        </UsePortals>
+      }
+      {error && <UsePortals><Error error={error} /></UsePortals>}
+      {message && <UsePortals><Message message={message} /></UsePortals>}
+      {form &&
+        <UsePortals>
+          <Actividades setForm={setForm} matricula={studentValues.matricula} setError={setError} setMessage={setMessage} />
+        </UsePortals>
+      }
     </>
   )
 }

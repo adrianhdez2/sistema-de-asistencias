@@ -3,14 +3,17 @@ import LinkUpdate from "../../components/items/LinkUpdate"
 import Error from '../../components/items/Error'
 import Message from '../../components/items/Message'
 import { useAxios } from "../../components/hooks/useAxios"
+import { useError } from "../../components/hooks/useError"
+import { useMessage } from "../../components/hooks/useMessage"
+import UsePortals from "../../components/hooks/usePortals"
 
 
 function Update() {
   const [alumnos, setAlumnos] = useState([])
-  const [error, setError] = useState(null)
-  const [message, setMessage] = useState(null)
   const [search, setSearch] = useState('')
-  const {axiosClient} = useAxios()
+  const { axiosClient } = useAxios()
+  const { error, setError } = useError()
+  const { message, setMessage } = useMessage()
   document.title = "Actualizar horas"
 
   const handleSearch = (e) => {
@@ -21,7 +24,7 @@ function Update() {
         setAlumnos(res.data)
       })
       .catch(err => {
-        setError(err.response?.data?.error)
+        setError("Ocurrió un error al realizar la búsqueda.")
       })
   }
 
@@ -31,29 +34,15 @@ function Update() {
         setAlumnos(res.data)
       })
       .catch(err => {
-        setError(err.response?.data?.error)
+        setError("Ocurrió un error al realizar la búsqueda.")
       })
   }
 
   useEffect(() => {
-    if (error) {
-      setError(error);
-      const timer = setTimeout(() => {
-        setError('');
-      }, 1500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [error]);
-
-  useEffect(() => {
     if (message) {
-      setMessage(message);
       const timer = setTimeout(() => {
         reloadData()
-        setMessage('');
-      }, 1500);
-
+      }, 500);
       return () => clearTimeout(timer);
     }
   }, [message]);
@@ -120,8 +109,8 @@ function Update() {
       </div>
 
 
-      {error && <Error error={error} />}
-      {message && <Message message={message} />}
+      {error && <UsePortals><Error error={error} /> </UsePortals>}
+      {message && <UsePortals><Message message={message} /></UsePortals>}
 
     </>
   )

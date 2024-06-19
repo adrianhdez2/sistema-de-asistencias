@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import LoginForm from "./LoginForm"
 import { useAxios } from "./hooks/useAxios"
+import UsePortals from "./hooks/usePortals"
 
 
 function HeaderHome() {
@@ -25,7 +26,7 @@ function HeaderHome() {
                     setLogin(!login)
                 }
             })
-            .catch(err => console.log(err))
+            .catch()
     }, [])
 
     return (
@@ -62,7 +63,7 @@ function HeaderHome() {
                     </div>
                 </nav>
             </header>
-            {show && <LoginForm handleHiddeLoginForm={handleHiddeLoginForm} />}
+            {show && <UsePortals><LoginForm handleHiddeLoginForm={handleHiddeLoginForm} /></UsePortals>}
         </>
 
     )

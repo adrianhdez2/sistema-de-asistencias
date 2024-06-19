@@ -3,12 +3,15 @@ import Error from "./Error"
 import Message from "./Message"
 import UsePortals from '../hooks/usePortals'
 import { useAxios } from '../hooks/useAxios'
+import { useError } from "../hooks/useError"
+import { useMessage } from "../hooks/useMessage"
 
 
 function ButtonNotifications() {
     const [state, setState] = useState(0)
-    const [error, setError] = useState(null)
-    const [message, setMessage] = useState(null)
+    const [id, setId] = useState(null)
+    const { error, setError } = useError()
+    const { message, setMessage } = useMessage()
     const [loading, setLoading] = useState(false)
     const { axiosClient } = useAxios()
 
@@ -20,17 +23,18 @@ function ButtonNotifications() {
                         .then(res => {
                             if (res.status) {
                                 setState(res.data.estado)
+                                setId(res.data.id_admin)
                             }
                         })
-                        .catch(err => console.log(err))
+                        .catch(err => setError("Ocurrió un error al obtener la información."))
                 }
             })
-            .catch(err => console.log(err))
+            .catch()
     }, [message])
 
     const handleChangeNofitications = () => {
         setLoading(true)
-        axiosClient.post('/admins/notifications', { estado: state === 0 ? 1 : 0 })
+        axiosClient.post('/admins/notifications', { estado: state === 0 ? 1 : 0, id_admin: id })
             .then(res => {
                 if (res.data.status) {
                     setLoading(false)
@@ -39,31 +43,9 @@ function ButtonNotifications() {
             })
             .catch(err => {
                 setLoading(false)
-                setError(err.response?.data?.error)
+                setError(err.response?.data?.error ? err.response?.data?.error : "Ocurrió un error al actualizar las notificaciones.")
             })
     }
-
-    useEffect(() => {
-        if (error) {
-            setError(error);
-            const timer = setTimeout(() => {
-                setError('');
-            }, 5000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [error]);
-
-    useEffect(() => {
-        if (message) {
-            setMessage(message);
-            const timer = setTimeout(() => {
-                setMessage('');
-            }, 5000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [message]);
 
     return (
         <>

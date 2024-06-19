@@ -13,7 +13,7 @@ export const PrivateRoutes = ({ element }) => {
                     navigate('/');
                 }
             })
-            .catch(error => console.log("Error verifying user:", error.response ? error.response.data : error.message));
+            .catch();
     }, [navigate]);
 
     return element;

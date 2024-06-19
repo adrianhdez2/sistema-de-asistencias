@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react"
 import { useAxios } from "../../components/hooks/useAxios";
+import { useError } from "../../components/hooks/useError";
+import UsePortals from "../../components/hooks/usePortals";
+import Error from "../../components/items/Error";
 
 
 export default function Activos() {
     const [alumnos, setAlumnos] = useState([])
+    const { error, setError } = useError()
     const { axiosClient } = useAxios()
 
     document.title = "Alumnos activos"
@@ -14,10 +18,10 @@ export default function Activos() {
                 if (res.data.status) {
                     axiosClient.get('/alumnos/get')
                         .then(res => setAlumnos(res.data))
-                        .catch(err => console.log(err))
+                        .catch(err => setError("Ocurrió un error al obtener los alumnos."))
                 }
             })
-            .catch(err => console.log(err))
+            .catch()
 
     }, [])
 
@@ -62,7 +66,7 @@ export default function Activos() {
                 }
 
             </div>
-
+            {error && <UsePortals><Error error={error} /></UsePortals>}
         </>
     )
 }

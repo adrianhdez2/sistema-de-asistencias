@@ -4,6 +4,9 @@ import ItemList from "../../components/items/ItemList"
 import Filters from "../../components/items/Filters"
 import { useFilters } from '../../components/hooks/useFilters'
 import { useAxios } from "../../components/hooks/useAxios"
+import { useError } from "../../components/hooks/useError"
+import UsePortals from "../../components/hooks/usePortals"
+import Error from "../../components/items/Error"
 
 
 function Alumnos() {
@@ -11,6 +14,7 @@ function Alumnos() {
   const [alumnos, setAlumnos] = useState([])
   const { filterStudents } = useFilters()
   const { axiosClient } = useAxios()
+  const { error, setError } = useError()
 
   document.title = "Alumnos"
 
@@ -29,10 +33,10 @@ function Alumnos() {
         if (res.data.status) {
           axiosClient.get('/alumnos')
             .then(res => setAlumnos(res.data))
-            .catch(err => console.log(err))
+            .catch(err => setError("Ocurrió un error al obtener los alumnos."))
         }
       })
-      .catch(err => console.log(err))
+      .catch()
 
   }, [])
 
@@ -88,7 +92,8 @@ function Alumnos() {
 
       </div>
 
-      {show && <AddForm handleHiddeAddForm={handleHiddeAddForm} />}
+      {show && <UsePortals><AddForm handleHiddeAddForm={handleHiddeAddForm} /></UsePortals>}
+      {error && <UsePortals><Error error={error}/></UsePortals>}
 
     </>
   )

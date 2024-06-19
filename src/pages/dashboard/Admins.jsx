@@ -2,12 +2,16 @@ import { useEffect, useState } from "react"
 import ItemAdmin from "../../components/items/ItemAdmin"
 import AddAdmin from "../../components/AddAdmin"
 import { useAxios } from "../../components/hooks/useAxios"
+import UsePortals from "../../components/hooks/usePortals"
+import { useError } from "../../components/hooks/useError"
+import Error from "../../components/items/Error"
 
 
 export default function Admins() {
   const [show, setShow] = useState(false)
   const [admins, setAdmins] = useState([])
   const { axiosClient } = useAxios()
+  const { error, setError } = useError()
 
   document.title = "Administradores"
 
@@ -24,12 +28,12 @@ export default function Admins() {
     axiosClient.get('/admins/verify')
       .then(res => {
         if (res.data.status) {
-          axiosClient.get('/admins/')
+          axiosClient.get('/admins')
             .then(res => setAdmins(res.data))
-            .catch(err => console.log(err))
+            .catch(err => setError("Ocurrió un error al obtener la lista de administradores."))
         }
       })
-      .catch(err => console.log(err))
+      .catch()
 
   }, [])
 
@@ -75,7 +79,8 @@ export default function Admins() {
 
       </div>
 
-      {show && <AddAdmin handleHiddeAddForm={handleHiddeAddForm} />}
+      {show && <UsePortals><AddAdmin handleHiddeAddForm={handleHiddeAddForm} /></UsePortals>}
+      {error && <UsePortals><Error error={error} /></UsePortals>}
 
     </>
   )

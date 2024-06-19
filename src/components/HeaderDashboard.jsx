@@ -2,20 +2,28 @@ import LinkHeader from "./LinkHeader"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useAxios } from '../components/hooks/useAxios'
+import { useError } from './hooks/useError'
+import UsePortals from '../components/hooks/usePortals'
+import Error from '../components/items/Error'
 
 function HeaderDashboard() {
     const navigate = useNavigate()
     const [image, setImage] = useState(null)
     const { axiosClient } = useAxios()
+    const { error, setError } = useError()
 
     const handleLogOut = () => {
         axiosClient.get('/admins/logout')
             .then(res => {
                 if (res.data.status) {
-                    navigate('/')
+                    return navigate('/')
+                }
+
+                if (!res.data.status) {
+                    return setError(res.data.message)
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => setError(err?.response?.data?.error ? err?.response?.data?.error : 'Ocurrió un error al cerrar sesión.'))
     }
 
     useEffect(() => {
@@ -29,12 +37,12 @@ function HeaderDashboard() {
                                 .then(res => {
                                     setImage(res.data.imagen)
                                 })
-                                .catch(err => console.log(err))
+                                .catch(err => setError("ocurrió un errror al obtener los datos."))
                         })
-                        .catch(err => console.log(err))
+                        .catch(err => setError("ocurrió un errror al obtener los datos."))
                 }
             })
-            .catch(err => console.log(err))
+            .catch()
     }, [])
 
     return (
@@ -88,6 +96,7 @@ function HeaderDashboard() {
                     </div>
                 </div>
             </div>
+            {error && <UsePortals><Error error={error} /></UsePortals>}
         </nav>
     )
 }

@@ -2,6 +2,9 @@ import { useEffect, useState } from "react"
 import ItemGeneral from "../../components/items/ItemGeneral"
 import ButtonNotifications from "../../components/items/ButtonNotifications"
 import { useAxios } from "../../components/hooks/useAxios"
+import { useError } from "../../components/hooks/useError"
+import UsePortals from "../../components/hooks/usePortals"
+import Error from "../../components/items/Error"
 
 
 function HomeDashboard() {
@@ -9,7 +12,8 @@ function HomeDashboard() {
   const [totalPages, setTotalPages] = useState(0)
   document.title = "Inicio"
   const [alumnos, setAlumnos] = useState([])
-  const {axiosClient} = useAxios()
+  const { axiosClient } = useAxios()
+  const { error, setError } = useError()
 
   useEffect(() => {
     axiosClient.get('/admins/verify')
@@ -20,10 +24,10 @@ function HomeDashboard() {
               setAlumnos(res.data.alumnos)
               setTotalPages(res.data.totalPages)
             })
-            .catch(err => console.log(err))
+            .catch(err => setError("Ocurrió un error al obtener los alumnos."))
         }
       })
-      .catch(err => console.log(err))
+      .catch()
   }, [page])
 
 
@@ -78,6 +82,7 @@ function HomeDashboard() {
           </nav>
         </div>
       </div>
+      {error && <UsePortals><Error error={error} /></UsePortals>}
     </main>
   )
 }
