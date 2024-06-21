@@ -11,6 +11,7 @@ function Reports() {
   const { axiosClient } = useAxios()
   const [alumnos, setAlumnos] = useState([])
   const [dataExcel, setDataExcel] = useState(null)
+  const [tipo, setTipo] = useState(null)
   const [loading, setLoading] = useState(false)
   const [fileName, setFileName] = useState(null)
   const { error, setError } = useError()
@@ -20,7 +21,7 @@ function Reports() {
     alumno_tipo: 'servicio_y_practica'
   })
 
-  const { downloadExcel } = useGenerate(dataExcel, fileName, "Actividades")
+  const { downloadExcel } = useGenerate(dataExcel, fileName, tipo)
 
   const handleChangeValues = (e) => {
     const { target } = e
@@ -55,8 +56,20 @@ function Reports() {
       .then(res => {
         if (res.data.status) {
           setLoading(false)
-          setDataExcel(res.data.data)
+          setTipo(formatType(res.data.tipo));
           setFileName(res.data.nombre)
+
+          if (res.data.tipo === 'actividades') {
+            const newData = res.data.data.map(item => ({
+              ...item,
+              FECHA: formatDate(item.FECHA)
+            }))
+
+            setDataExcel(newData)
+            return
+          }
+
+          setDataExcel(res.data.data)
           return
         }
 
@@ -191,3 +204,17 @@ function Reports() {
 }
 
 export default Reports
+
+function formatType(tipo) {
+  if (tipo === 'lista') return 'Lista de alumnos'
+  if (tipo === 'actividades') return 'Actividades del alumno'
+  if (tipo === 'horas') return 'Horas de alumnos'
+
+  return 'lista'
+}
+
+function formatDate(date) {
+  const fecha = date.split("T")
+
+  return fecha[0]
+}
