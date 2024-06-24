@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import HeaderHome from '../components/HeaderHome'
 import { useTime } from '../components/hooks/useTime'
 import FormOTP from '../components/FormOTP'
@@ -9,6 +9,7 @@ import { useAxios } from '../components/hooks/useAxios'
 import { useError } from '../components/hooks/useError'
 import { useMessage } from '../components/hooks/useMessage'
 import UsePortals from '../components/hooks/usePortals'
+import { useBeforeunload } from 'react-beforeunload'
 
 function Home() {
 
@@ -67,7 +68,7 @@ function Home() {
       })
   }
 
-
+  useBeforeunload(() => 'You’ll lose your data!')
 
   return (
     <>

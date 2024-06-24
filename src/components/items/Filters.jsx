@@ -16,7 +16,6 @@ function Filters() {
             <option value="all">Todos</option>
             <option value="servicio_social">Servicio Social</option>
             <option value="practica_profesional">Práctica Profesional</option>
-            <option value="servicio_y_practica">Servicio y Práctica</option>
         </select>
     )
 }

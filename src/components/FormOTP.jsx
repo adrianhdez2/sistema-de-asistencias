@@ -6,7 +6,6 @@ function FormOTP({ studentValues, setShow, setForm, setError, setMessage }) {
     const [loading, setLoading] = useState(false)
     const { axiosClient } = useAxios()
 
-
     const handleValidation = (e) => {
         e.preventDefault()
         setLoading(true)

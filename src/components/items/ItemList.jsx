@@ -22,7 +22,7 @@ export default function ItemList({ alumno }) {
             </td>
             <td className="px-6 py-4 text-center">
                 {
-                    tipo !== 'servicio_y_practica' &&
+                    total_horas < 480 &&
                     <>
                         <FormTable state={estado} id_user={id_estudiante_estudiantes} newState={newState} />
                     </>
@@ -30,7 +30,7 @@ export default function ItemList({ alumno }) {
             </td>
             <td className="px-6 py-4 text-center">
                 {
-                    tipo !== 'servicio_y_practica' && 
+                    total_horas < 480  && 
                     <FormStudent id_estudiante={id_estudiante_estudiantes} password={password ? true : false}/>
                 }
             </td>
